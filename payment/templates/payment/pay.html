@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Payment details</h2>
+<div class="row">
+  <div class="col-3">
+    <strong>Amount</strong>
+  </div>
+  <div class="col">
+    ${{payment.amount}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Description</strong>
+  </div>
+  <div class="col">
+    {{payment.description}}
+  </div>
+</div>
+<form method="post" novalidate action="{{form.action}}">
+{{form}}
+<button type="submit" class="btn btn-primary btn-lg">Pay</button>
+</form>
+{% endblock %}

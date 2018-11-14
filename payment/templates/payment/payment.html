@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Payment details</h2>
+<div class="row">
+  <div class="col-3">
+    <strong>ID</strong>
+  </div>
+  <div class="col">
+    {{payment.id}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Created</strong>
+  </div>
+  <div class="col">
+    {{payment.created|date:'SHORT_DATETIME_FORMAT'}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Status</strong>
+  </div>
+  <div class="col">
+    {{payment.status}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Amount</strong>
+  </div>
+  <div class="col">
+    ${{payment.amount}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Description</strong>
+  </div>
+  <div class="col">
+    {{payment.description}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <strong>Payment URL</strong>
+  </div>
+  <div class="col">
+    {% url 'pay' id=payment.id %}
+  </div>
+</div>
+
+{% endblock %}

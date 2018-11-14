@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Payments <a class="btn btn-primary float-right" href="{% url 'create_payment' %}">New</a></h2>
+<table>
+<tr><th>ID</th><th>Created</th><th>Status</th><th>Amount</th><th>Description</th></tr>
+{% for p in payments %}
+<tr><td><a href="{% url 'payment' id=p.id %}">{{p.id}}</a></td><td>{{p.created|date:'SHORT_DATETIME_FORMAT'}}</td><td>{{p.status}}</td><td>${{p.amount}}</td><td>{{p.description}}</td></tr>
+{% endfor %}
+</table>
+<div ng-app>
+
+</div>
+{% endblock %}
+{% block endhead %}
+    <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+{% endblock %}
+{% block endbody %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+    <script>
+    angular.module("app", ["ngTable"]);
+    
+    </script>
+{% endblock %}
