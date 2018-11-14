@@ -48,7 +48,7 @@
     <strong>Payment URL</strong>
   </div>
   <div class="col">
-    {% url 'pay' id=payment.id %}
+    <a href="{% url 'pay' id=payment.id %}">https://{{request.get_host}}{% url 'pay' id=payment.id %}</a>
   </div>
 </div>
 
