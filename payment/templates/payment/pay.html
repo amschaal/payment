@@ -18,8 +18,14 @@
     {{payment.description}}
   </div>
 </div>
+{% if payment.disabled %}
+<h3>This payment has been disabled and may no longer be paid.</h3>
+{% elif payment.is_paid %}
+<h3>This payment has already been paid.</h3>
+{% else %}
 <form method="post" novalidate action="{{form.action}}">
 {{form}}
 <button type="submit" class="btn btn-primary btn-lg">Pay</button>
 </form>
+{% endif %}
 {% endblock %}

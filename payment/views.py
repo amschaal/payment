@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from payment.forms import CreatePaymentForm
+from payment.forms import CreatePaymentForm, ModifyPaymentForm
 from payment.models import Payment
 from django.contrib.auth.decorators import user_passes_test
 from touchnet.forms import TouchnetPostForm
@@ -17,6 +17,20 @@ def create_payment(request):
             payment = form.save()
             return redirect('payment', id=payment.id)
     return render(request, 'payment/create_payment.html', {'form': form})
+
+@user_passes_test(lambda u: u.is_staff)
+def modify_payment(request, id):
+    payment = Payment.objects.get(id=id)
+    if payment.is_paid:
+        return render(request, 'payment/modify_payment.html', {'payment': payment})
+    if request.method == 'GET':
+        form = ModifyPaymentForm(instance=payment)
+    elif request.method == 'POST':
+        form = ModifyPaymentForm(request.POST, instance=payment)
+        if form.is_valid():
+            payment = form.save()
+            return redirect('payment', id=payment.id)
+    return render(request, 'payment/modify_payment.html', {'form': form, 'payment': payment})
 
 @user_passes_test(lambda u: u.is_staff)
 def payments(request):

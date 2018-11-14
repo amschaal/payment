@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Payment details</h2>
+<h2>Payment details{% if not payment.is_paid %}<a class="btn btn-primary" href="{% url 'modify_payment' id=payment.id %}">Modify</a>{% endif %}</h2>
 <div class="row">
   <div class="col-3">
     <strong>ID</strong>
@@ -63,7 +63,7 @@
     {{payment.description}}
   </div>
 </div>
-{% if not payment.paid_at %}
+{% if not payment.is_paid and not payment.disabled %}
 <div class="row">
   <div class="col-3">
     <strong>Payment URL</strong>
@@ -73,5 +73,5 @@
   </div>
 </div>
 {% endif %}
-
+{% if payment.disabled %}<h3 class="text-danger">This payment has been disabled.</h3>{% endif %}
 {% endblock %}

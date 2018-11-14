@@ -25,7 +25,7 @@ class TouchnetPostForm(forms.Form):
         self.test = kwargs.pop('test', False)
         site = 'TEST' if self.test else 'PRODUCTION'
         conf = settings.TOUCHNET #settings.TOUCHNET_SITES['TEST'] if self.test else settings.TOUCHNET_SITES['PRODUCTION']
-        EXT_TRANS_ID = 'FID={0}PAYMENT_ID={1}'.format(conf.get('FID'),self.payment.id)#  if not conf.get('FAU') else 'FID=%s;FAU=%s;%s'%(conf['FID'],conf['FAU'],payment.registration.id), 
+        EXT_TRANS_ID = 'FID={0}PAYMENT_ID={1}'.format(self.payment.account.fid,self.payment.id)#  if not conf.get('FAU') else 'FID=%s;FAU=%s;%s'%(conf['FID'],conf['FAU'],payment.registration.id), 
         AMT = '{0:.2f}'.format(self.payment.amount)
         m = hashlib.md5()
         m.update(conf.get('POSTING_KEY')+EXT_TRANS_ID+AMT)

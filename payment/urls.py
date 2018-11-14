@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^payments/$', views.payments, name="payments"),
     url(r'^payments/create/$', views.create_payment, name="create_payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/$', views.payment, name="payment"),
+    url(r'^payments/(?P<id>[0-9a-f-]+)/modify/$', views.modify_payment, name="modify_payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/pay/$', views.pay, name="pay"),
 ]

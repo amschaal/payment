@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Modify payment</h2>
+{% if form %}
+<form method="post" novalidate>
+{% csrf_token %}
+{{form|crispy}}
+<button type="submit" class="btn btn-success">Modify</button>
+</form>
+{% else %}
+<p>Payment <a href="{% url 'payment' id=payment.id %}">{{payment.id}}</a> has already been paid, and may no longer be modified.</p>
+{% endif %}
+
+{% endblock %}
