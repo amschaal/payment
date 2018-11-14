@@ -27,6 +27,16 @@
     {{payment.status}}
   </div>
 </div>
+{% if payment.paid_at %}
+<div class="row">
+  <div class="col-3">
+    <strong>Paid at</strong>
+  </div>
+  <div class="col">
+    {{payment.paid_at|date:'SHORT_DATETIME_FORMAT'}}
+  </div>
+</div>
+{% endif %}
 <div class="row">
   <div class="col-3">
     <strong>Amount</strong>
@@ -43,6 +53,7 @@
     {{payment.description}}
   </div>
 </div>
+{% if not payment.paid_at %}
 <div class="row">
   <div class="col-3">
     <strong>Payment URL</strong>
@@ -51,5 +62,6 @@
     <a href="{% url 'pay' id=payment.id %}">https://{{request.get_host}}{% url 'pay' id=payment.id %}</a>
   </div>
 </div>
+{% endif %}
 
 {% endblock %}

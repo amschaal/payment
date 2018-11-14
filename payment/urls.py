@@ -19,6 +19,7 @@ from payment import views
 from touchnet.urls import urlpatterns as touchnet_urlpatterns
 
 urlpatterns = [
+    url(r'^$', views.index, name="index"),
     url(r'^admin/', admin.site.urls),
     url(r'^', include(touchnet_urlpatterns)),
     url(r'^payments/$', views.payments, name="payments"),

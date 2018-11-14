@@ -4,6 +4,9 @@ from payment.models import Payment
 from django.contrib.auth.decorators import user_passes_test
 from touchnet.forms import TouchnetPostForm
 
+def index(request):
+    return render(request, 'payment/index.html', {})
+
 @user_passes_test(lambda u: u.is_staff)
 def create_payment(request):
     if request.method == 'GET':
@@ -20,7 +23,7 @@ def payments(request):
     payments = Payment.objects.all().order_by('-created')
     return render(request, 'payment/payments.html', {'payments': payments})
 
-@user_passes_test(lambda u: u.is_staff)
+# @user_passes_test(lambda u: u.is_staff)
 def payment(request, id):
     payment = Payment.objects.get(id=id)
     return render(request, 'payment/payment.html', {'payment': payment})
