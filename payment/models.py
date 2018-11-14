@@ -1,6 +1,14 @@
 from django.db import models
 import uuid
 
+class Account(models.Model):
+    fid = models.CharField(max_length=3, primary_key=True)
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return '{0} - {1}'.format(self.fid, self.name)
+    class Meta:
+        ordering = ('fid', )
+    
 class Payment(models.Model):
     TYPE_GENERIC = 'GENERIC'
     STATUS_UNPAID = 'UNPAID'
@@ -14,11 +22,14 @@ class Payment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=TYPE_GENERIC)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
+#     chart_string = models.CharField(max_length=1, null=True)
+#     fau = models.CharField
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_UNPAID)
     created = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True)
     external_id = models.CharField(max_length=100, null=True)
+    disabled = models.DateTimeField(null=True)
     
     def __unicode__(self):
         return '{0} - {1} - {2}'.format(self.type, self.id, self.amount)
