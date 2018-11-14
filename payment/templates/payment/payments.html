@@ -3,8 +3,10 @@
 
 {% block content %}
 <h2>Payments <a class="btn btn-primary float-right" href="{% url 'create_payment' %}">New</a></h2>
-<table>
+<table class="table table-striped">
+<thead>
 <tr><th>ID</th><th>Created</th><th>Status</th><th>Amount</th><th>Description</th></tr>
+</thead>
 {% for p in payments %}
 <tr><td><a href="{% url 'payment' id=p.id %}">{{p.id}}</a></td><td>{{p.created|date:'SHORT_DATETIME_FORMAT'}}</td><td>{{p.status}}</td><td>${{p.amount}}</td><td>{{p.description}}</td></tr>
 {% endfor %}
