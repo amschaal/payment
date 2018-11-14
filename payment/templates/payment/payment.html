@@ -37,6 +37,16 @@
   </div>
 </div>
 {% endif %}
+{% if payment.external_id %}
+<div class="row">
+  <div class="col-3">
+    <strong>External ID</strong>
+  </div>
+  <div class="col">
+    {{payment.external_id}}
+  </div>
+</div>
+{% endif %}
 <div class="row">
   <div class="col-3">
     <strong>Amount</strong>
