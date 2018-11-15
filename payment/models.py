@@ -29,10 +29,10 @@ class Payment(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_UNPAID)
     created = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True)
-    external_id = models.CharField(max_length=100, null=True)
+    transaction_id = models.CharField(max_length=100, null=True)
     disabled = models.BooleanField(default=False)
     @property
     def is_paid(self):
-        return self.status == self.STATUS_PAID or self.external_id or self.paid_at
+        return self.status == self.STATUS_PAID or self.transaction_id or self.paid_at
     def __unicode__(self):
         return '{0} - {1} - {2} ({3})'.format(self.type, self.id, self.amount, self.status)

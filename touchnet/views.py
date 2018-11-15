@@ -42,7 +42,7 @@ def postback(request):
         if posting_key != req.get('POSTING_KEY'):
             raise Exception("Invalid POSTING_KEY")
         if req.get('PMT_STATUS')=='success':
-            payment.external_id = req.get('TPG_TRANS_ID')
+            payment.transaction_id = req.get('TPG_TRANS_ID')
             if float(req.get('PMT_AMT')) == float(payment.amount):
                 payment.status = Payment.STATUS_PAID
                 payment.paid_at = timezone.now()

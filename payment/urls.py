@@ -17,11 +17,17 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from payment import views
 from touchnet.urls import urlpatterns as touchnet_urlpatterns
+from rest_framework import routers
+from payment.api.views import PaymentViewset
+
+router = routers.DefaultRouter()
+router.register(r'payments', PaymentViewset, 'Payment')
 
 urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^admin/', admin.site.urls),
     url(r'^', include(touchnet_urlpatterns)),
+    url(r'^api/', include(router.urls)),
     url(r'^payments/$', views.payments, name="payments"),
     url(r'^payments/create/$', views.create_payment, name="create_payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/$', views.payment, name="payment"),
