@@ -19,6 +19,7 @@ from payment import views
 from touchnet.urls import urlpatterns as touchnet_urlpatterns
 from rest_framework import routers
 from payment.api.views import PaymentViewset
+from cas import views as cas_views
 
 router = routers.DefaultRouter()
 router.register(r'payments', PaymentViewset, 'Payment')
@@ -33,6 +34,6 @@ urlpatterns = [
     url(r'^payments/(?P<id>[0-9a-f-]+)/$', views.payment, name="payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/modify/$', views.modify_payment, name="modify_payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/pay/$', views.pay, name="pay"),
-    url(r'^accounts/login/$', 'cas.views.login', name='login'),
-    url(r'^accounts/logout/$', 'cas.views.logout', name='logout'),
+    url(r'^accounts/login/$', cas_views.login, name='login'),
+    url(r'^accounts/logout/$', cas_views.logout, name='logout'),
 ]
