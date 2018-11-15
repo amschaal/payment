@@ -19,7 +19,7 @@ class Payment(models.Model):
     STATUS_ERROR = 'ERROR'
     STATUS_CHOICES = ((STATUS_UNPAID, 'Unpaid'), (STATUS_PAID, 'Paid'), (STATUS_PENDING, 'Payment Pending'), (STATUS_INVALID_AMOUNT, 'Invalid Amount Paid'), (STATUS_ERROR, 'Processing Error'))
     TYPE_CHOICES = ((TYPE_GENERIC, TYPE_GENERIC),)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=100)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=TYPE_GENERIC)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     account = models.ForeignKey(Account, related_name='payments')
