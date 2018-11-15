@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^payments/(?P<id>[0-9a-f-]+)/$', views.payment, name="payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/modify/$', views.modify_payment, name="modify_payment"),
     url(r'^payments/(?P<id>[0-9a-f-]+)/pay/$', views.pay, name="pay"),
+    url(r'^accounts/login/$', 'cas.views.login', name='login'),
+    url(r'^accounts/logout/$', 'cas.views.logout', name='logout'),
 ]
