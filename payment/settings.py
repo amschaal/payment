@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'payment',
     'crispy_forms',
     'rest_framework',
+    'cas'
 #     'rest_framework_filters',
 ]
 
