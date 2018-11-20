@@ -66,10 +66,13 @@
 		            <strong id="app-name">Payment<br>System</strong>
 		          </a>
 			    <ul class="navbar-nav my-2 my-lg-0">
-       	          {% if user.is_authenticated %}
+       	          	{% if user.is_authenticated %}
 	         	  <li class="nav-item">
 			        <a class="nav-link" href="{% url 'payments' %}">Payments</a>
-			      </li>
+			  </li>
+      			  <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                          </li>
 		          {% endif %}
 			      <li class="nav-item">
 			        <a class="nav-link" href="{% url 'index' %}">About</a>
