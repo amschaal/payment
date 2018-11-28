@@ -18,6 +18,7 @@ class TouchnetPostForm(forms.Form):
     CANCEL_LINK = forms.URLField(required=False,widget=forms.HiddenInput())
     AMT = forms.CharField(widget=forms.HiddenInput)
     VALIDATION_KEY = forms.CharField(widget=forms.HiddenInput())
+    EXT_TRANS_ID_LABEL = forms.CharField(widget=forms.HiddenInput())
     def __init__(self, *args, **kwargs):
         import base64
         import hashlib
@@ -35,7 +36,8 @@ class TouchnetPostForm(forms.Form):
                 'SUCCESS_LINK': settings.SITE_URL + reverse('payment',kwargs={'id':self.payment.id}),
                 'CANCEL_LINK': settings.SITE_URL + reverse('pay',kwargs={'id':self.payment.id}),
                 'AMT': AMT,
-                'VALIDATION_KEY': base64.encodestring(m.digest()) 
+                'VALIDATION_KEY': base64.encodestring(m.digest()),
+                'EXT_TRANS_ID_LABEL': 'Order ID {0}'.format(self.payment.order_id) if self.payment.order_id else self.payment.description 
                 }
         print data
         m.update(conf.get('POSTING_KEY')+data['EXT_TRANS_ID']+str(data['AMT']))
