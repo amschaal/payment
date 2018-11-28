@@ -20,11 +20,12 @@
 	<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" ng-cloak>
       <tr ng-repeat="row in $data">
         <td data-title="'ID'" filter="{id__icontains: 'text'}"><a href="/payments/{{row.id}}/">{{row.id}}</a></td>
+        <td data-title="'Order ID'" sortable="'order_id'" filter="{order_id__icontains: 'text'}">{{row.order_id}}</td>
         <td data-title="'Created'" sortable="'created'">{{row.created|date:'short'}}</td>
-        <td data-title="'Status'" sortable="'status'">{{row.status}}</td>
         <td data-title="'Amount'" sortable="'amount'">${{row.amount}}</td>
         <td data-title="'Paid at'" sortable="'paid_at'">{{row.paid_at|date:'short'}}</td>
         <td data-title="'Description'" filter="{description__icontains: 'text'}">{{row.description}}</td>
+        <td data-title="'Status'" sortable="'status'">{{row.status}}</td>
         <td data-title="'Disabled'" sortable="'disabled'">{{row.disabled}}</td>
       </tr>
     </table>

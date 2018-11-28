@@ -5,9 +5,9 @@ from payment.models import Payment
 
 class PaymentViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PaymentSerializer
-    filter_fields = {'id':[ 'icontains'],'description':['icontains'],'status':['exact'],'disabled':['exact']}
+    filter_fields = {'id':[ 'icontains'],'order_id':[ 'icontains'],'description':['icontains'],'status':['exact'],'disabled':['exact']}
 #     search_fields = ('title',)
-    ordering_fields = ('created','status','amount','disabled','paid_at')
+    ordering_fields = ('created','status','amount','disabled','paid_at','order_id')
 #     permission_classes = (EventPermission,)
     def get_queryset(self):
         return Payment.objects.all()

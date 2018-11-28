@@ -25,6 +25,7 @@ class Payment(models.Model):
     account = models.ForeignKey(Account, related_name='payments')
 #     chart_string = models.CharField(max_length=1, null=True)
 #     fau = models.CharField
+    order_id = models.CharField(max_length=30, null=True, blank=True)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_UNPAID)
     created = models.DateTimeField(auto_now_add=True)
