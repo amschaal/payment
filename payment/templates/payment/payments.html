@@ -16,7 +16,11 @@
 <div ng-app="payments">
 {% verbatim %}
 <div ng-controller="EventsController" ng-init="init()">
-	<label><input type="checkbox" ng-model="filters.disabled" ng-true-value="''", ng-false-value="'False'"/> Show disabled payments</label>
+{{start_date}} {{end_date}}
+	<label><input type="checkbox" ng-model="filters.disabled" ng-true-value="''", ng-false-value="'False'"/> Show disabled payments</label><br>
+	<label>Created beginning: <input type="date" ng-model="filters.created__gte"></label> <label>Created ending: <input type="date" ng-model="filters.created__lte" ng-change="filters.created__lte.setDate(filters.created__lte.getDate() + 1)"></label><br>
+	<label>Paid beginning: <input type="date" ng-model="filters.paid_at__gte"></label> <label>Paid ending: <input type="date" ng-model="filters.paid_at__lte" ng-change="filters.paid_at__lte.setDate(filters.paid_at__lte.getDate() + 1)"></label>
+	
 	<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" ng-cloak>
       <tr ng-repeat="row in $data">
         <td data-title="'ID'" filter="{id__icontains: 'text'}"><a href="/payments/{{row.id}}/">{{row.id}}</a></td>
@@ -51,7 +55,7 @@
 
     	  function EventsController($scope, DRFNgTableParams) {
     	  	$scope.init = function(id,statuses,processors,payment_statuses){
-    	  		$scope.filters = {disabled: 'False'};
+    	  		$scope.filters = {disabled: 'False', created__at__gte: null, created__at__lte: null};
     	  		$scope.tableParams = DRFNgTableParams('/api/payments/',{sorting: { created: "desc" },filter:$scope.filters});
     	  		$scope.$watchCollection('filters', function(newFilters, oldFilters) {
     	  			angular.extend($scope.tableParams.filter(), newFilters);
