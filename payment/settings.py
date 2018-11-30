@@ -138,4 +138,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'payment.api.pagination.ResultsSetPagination',
 }
 
+TEST = True #By default, this is a test site and should have so indicated in the header.  Override in config.py
+
 from config import *
