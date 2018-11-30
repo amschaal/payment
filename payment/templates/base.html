@@ -63,7 +63,7 @@
 		  	<div class="container">
 			  	<a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center mr-auto mt-2 mt-lg-0">
 		          <img src="/static/images/gcwordmark.png" class="mr-2"/>
-		            <strong id="app-name">Payment<br>System</strong>
+		            <strong id="app-name">{% if site_settings.test %}TEST<br>{% endif %}Payment<br>System</strong>
 		          </a>
 			    <ul class="navbar-nav my-2 my-lg-0">
        	          	{% if user.is_authenticated %}
