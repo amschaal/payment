@@ -3,8 +3,8 @@
 
 {% block content %}
 <h2> Payment details
-{% if not payment.is_paid %}<a class="btn btn-primary ml-3" href="{% url 'modify_payment' id=payment.id %}">Modify</a>{% endif %}
-{% if  payment.is_paid %}
+{% if user.is_authenticated and not payment.is_paid %}<a class="btn btn-primary ml-3" href="{% url 'modify_payment' id=payment.id %}">Modify</a>{% endif %}
+{% if user.is_authenticated and payment.is_paid %}
     {% if payment.archived %}
         <a class="btn btn-success ml-3" href="{% url 'unarchive_payment' id=payment.id %}">Unarchive</a>
     {% else %}
