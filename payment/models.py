@@ -32,6 +32,7 @@ class Payment(models.Model):
     paid_at = models.DateTimeField(null=True)
     transaction_id = models.CharField(max_length=100, null=True)
     disabled = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
     @property
     def is_paid(self):
         return self.status == self.STATUS_PAID or self.transaction_id or self.paid_at

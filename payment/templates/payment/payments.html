@@ -21,7 +21,7 @@
         <td data-title="'Amount'" sortable="'amount'">${{row.amount}}</td>
         <td data-title="'Paid at'" sortable="'paid_at'">{{row.paid_at|date:'short'}}</td>
         <td data-title="'Description'" filter="{description__icontains: 'text'}">{{row.description}}</td>
-        <td data-title="'Status'" sortable="'status'">{{row.status}}</td>
+        <td data-title="'Status'" sortable="'status'">{{row.status}}<archive-payment payment="row"/></td>
         <td data-title="'Disabled'" sortable="'disabled'">{{row.disabled}}</td>
       </tr>
     </table>
@@ -35,15 +35,18 @@
 {% endblock %}
 {% block endbody %}
     <script src="{% static 'vendor/angularjs/angular.js' %}"></script>
+    <script src="{% static 'vendor/angularjs/angular-resource.js' %}"></script>
     <script src="{% static 'vendor/ngtable/ng-table.min.js' %}"></script>
     <script src="{% static 'js/services/DRFNgTable.js' %}"></script>
+    <script src="{% static 'js/models/models.js' %}"></script>
+    <script src="{% static 'js/directives/payment_directives.js' %}"></script>
     <script>
-    var app = angular.module("payments", ["DRFNgTable"]);
+    var app = angular.module("payments", ["DRFNgTable","models","payment"]);
     (function() {
-    	  app.controller('PaymentsController', ['$scope','DRFNgTableParams','$httpParamSerializer', PaymentsController]);
-    	  function PaymentsController($scope, DRFNgTableParams,$httpParamSerializer) {
+    	  app.controller('PaymentsController', ['$scope','DRFNgTableParams','Payment','$httpParamSerializer', PaymentsController]);
+    	  function PaymentsController($scope, DRFNgTableParams, Payment,$httpParamSerializer) {
     	  	$scope.init = function(id,statuses,processors,payment_statuses){
-    	  		$scope.tableParams = DRFNgTableParams('/api/payments/',{sorting: { created: "desc" },filter:$scope.filters});
+    	  		$scope.tableParams = DRFNgTableParams('/api/payments/',{sorting: { created: "desc" },filter:$scope.filters},Payment);
     	  		$scope.setDefaultFilters();
     	  		$scope.$watchCollection('filters', function(newFilters, oldFilters) {
     	  			angular.extend($scope.tableParams.filter(), newFilters);
