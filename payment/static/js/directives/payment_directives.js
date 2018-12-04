@@ -12,20 +12,20 @@ angular.module('payment.directives', ['models'])//,'angular-growl'
 	    controller: function($scope, $http, $element){
 	    	this.$scope = $scope;
 	    	$scope.archive = function (){
-	    		$scope.payment.archived = true;
-	    		$scope.payment.$save(function(){
+// 	    		$scope.payment.archived = true;
+	    		$scope.payment.$archive(function(){
 // 	    			growl.success('Payment "'+$scope.payment.id+'" archived',{ttl: 4000});
 	    		},function(){
-	    			$scope.payment.archived=false;
+// 	    			$scope.payment.archived=false;
 // 	    			growl.error('Error archiving payment "'+$scope.payment.id+'"',{ttl: 4000});
 	    		});
 	    	}
 	    	$scope.unarchive = function (){
-	    		$scope.payment.archived = false;
-	    		$scope.payment.$save(function(){
+// 	    		$scope.payment.archived = false;
+	    		$scope.payment.$unarchive(function(){
 // 	    			growl.success('Payment "'+$scope.payment.id+'" unarchived',{ttl: 4000});
 	    		},function(){
-	    			$scope.payment.archived=true;
+// 	    			$scope.payment.archived=true;
 // 	    			growl.error('Error unarchiving payment "'+$scope.payment.id+'"',{ttl: 4000});
 	    		});
 	    	}

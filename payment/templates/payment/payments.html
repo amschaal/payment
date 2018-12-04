@@ -43,6 +43,9 @@
     <script>
     var app = angular.module("payments", ["DRFNgTable","models","payment"]);
     (function() {
+          app.config(function($resourceProvider) {
+              $resourceProvider.defaults.stripTrailingSlashes = false;
+            });
     	  app.controller('PaymentsController', ['$scope','DRFNgTableParams','Payment','$httpParamSerializer', PaymentsController]);
     	  function PaymentsController($scope, DRFNgTableParams, Payment,$httpParamSerializer) {
     	  	$scope.init = function(id,statuses,processors,payment_statuses){

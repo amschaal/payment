@@ -19,5 +19,9 @@ var standard_methods = {
 
 angular.module('models', ['ngResource'])
 .factory('Payment', ['$resource', function ($resource) {
-  return $resource('/api/payments/:id/', {id:'@id'}, standard_methods);
-}]);
+  return $resource('/api/payments/:id/', {id:'@id'}, {
+    query: { method: 'GET', isArray:true, transformResponse:transformDjangoRestResponse },
+    archive: { method: 'POST', isArray:false, url: '/api/payments/:id/archive/' },
+    unarchive: { method: 'POST', isArray:false, url: '/api/payments/:id/unarchive/' },
+  });
+}])

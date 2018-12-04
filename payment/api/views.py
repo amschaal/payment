@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 from payment.api.serializers import PaymentSerializer
 from payment.models import Payment
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from django.utils import timezone
 from django.http.response import HttpResponse
+from rest_framework.response import Response
 
 class PaymentViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PaymentSerializer
@@ -13,6 +14,18 @@ class PaymentViewset(viewsets.ReadOnlyModelViewSet):
 #     permission_classes = (EventPermission,)
     def get_queryset(self):
         return Payment.objects.all()
+    @detail_route(methods=['post'])
+    def archive(self, request, pk):
+        instance = self.get_object()
+        instance.archived = True
+        instance.save()
+        return Response(PaymentSerializer(instance).data)
+    @detail_route(methods=['post'])
+    def unarchive(self, request, pk):
+        instance = self.get_object()
+        instance.archived = False
+        instance.save()
+        return Response(PaymentSerializer(instance).data)
     @list_route()
     def export(self,request):
         import tablib
