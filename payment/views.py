@@ -33,6 +33,16 @@ def modify_payment(request, id):
     return render(request, 'payment/modify_payment.html', {'form': form, 'payment': payment})
 
 @user_passes_test(lambda u: u.is_staff)
+def archive_payment(request, id):
+    payment = Payment.objects.filter(id=id, status=Payment.STATUS_PAID).update(archived=True)
+    return redirect('payment', id=id)
+    
+@user_passes_test(lambda u: u.is_staff)
+def unarchive_payment(request, id):
+    payment = Payment.objects.filter(id=id, status=Payment.STATUS_PAID).update(archived=False)
+    return redirect('payment', id=id)
+
+@user_passes_test(lambda u: u.is_staff)
 def payments(request):
     payments = Payment.objects.all().order_by('-created')
     return render(request, 'payment/payments.html', {'payments': payments})

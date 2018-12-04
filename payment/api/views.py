@@ -5,27 +5,28 @@ from rest_framework.decorators import list_route, detail_route
 from django.utils import timezone
 from django.http.response import HttpResponse
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 
 class PaymentViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = PaymentSerializer
     filter_fields = {'id':[ 'icontains'],'order_id':[ 'icontains'],'description':['icontains'],'status':['exact'],'disabled':['exact'],'created':['gte','lte'],'paid_at':['gte','lte'],'status':['exact']}
 #     search_fields = ('title',)
     ordering_fields = ('created','status','amount','disabled','paid_at','order_id')
-#     permission_classes = (EventPermission,)
+    permission_classes = (IsAdminUser,)
     def get_queryset(self):
         return Payment.objects.all()
-    @detail_route(methods=['post'])
-    def archive(self, request, pk):
-        instance = self.get_object()
-        instance.archived = True
-        instance.save()
-        return Response(PaymentSerializer(instance).data)
-    @detail_route(methods=['post'])
-    def unarchive(self, request, pk):
-        instance = self.get_object()
-        instance.archived = False
-        instance.save()
-        return Response(PaymentSerializer(instance).data)
+#     @detail_route(methods=['post'])
+#     def archive(self, request, pk):
+#         instance = self.get_object()
+#         instance.archived = True
+#         instance.save()
+#         return Response(PaymentSerializer(instance).data)
+#     @detail_route(methods=['post'])
+#     def unarchive(self, request, pk):
+#         instance = self.get_object()
+#         instance.archived = False
+#         instance.save()
+#         return Response(PaymentSerializer(instance).data)
     @list_route()
     def export(self,request):
         import tablib
