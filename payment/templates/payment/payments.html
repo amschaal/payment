@@ -2,19 +2,28 @@
 {% load staticfiles %}
 
 {% block content %}
+<style>
+.archived {
+    color: orange;
+}
+.disabled {
+    color: red;
+}
+</style>
 <h2>Payments <a class="btn btn-primary float-right" href="{% url 'create_payment' %}">New</a></h2>
 <div ng-app="payments">
 {% verbatim %}
 <div ng-controller="PaymentsController" ng-init="init()">
 	
-	<div class="row"><label><input type="checkbox" ng-model="filters.disabled" ng-true-value="''" ng-false-value="'False'"/> Show disabled payments</label></div>
+	<div class="row"><label><input type="checkbox" ng-model="filters.disabled" ng-true-value="''" ng-false-value="'False'"/> Show <span class="disabled">disabled</span> payments</label></div>
+	<div class="row"><label><input type="checkbox" ng-model="filters.archived" ng-true-value="''" ng-false-value="'False'"/> Show <span class="archived">archived</span> payments</label></div>
 	<div class="row"><div class="col-1">Created</div><div class="col-11"><input type="date" ng-model="filters.created__gte"> - <input type="date" ng-model="filters.created__lte" ng-change="filters.created__lte.setDate(filters.created__lte.getDate() + 1)"></div></div>
 	<div class="row"><div class="col-1">Paid</div><div class="col-11"><input type="date" ng-model="filters.paid_at__gte"> - <input type="date" ng-model="filters.paid_at__lte" ng-change="filters.paid_at__lte.setDate(filters.paid_at__lte.getDate() + 1)"></div></div>
 	<div><label> <input type="radio" value="PAID" ng-model="filters.status"/> Paid </label> <label> <input type="radio" value="UNPAID" ng-model="filters.status"/> Unpaid </label> <label> <input type="radio" value="" ng-model="filters.status"/> Both</label></div>
 	<div class="float-right"><a class="btn btn-primary" href="#" ng-click="setDefaultFilters()">Reset filters</a> <a class="btn btn-primary" href="#" ng-click="exportPayments('xls')">Export filtered</a></div>
 	<br>
 	<table ng-table="tableParams" class="table table-condensed table-bordered table-striped" ng-cloak>
-      <tr ng-repeat="row in $data">
+      <tr ng-repeat="row in $data" ng-class="{disabled: row.disabled, archived: row.archived}">
         <td data-title="'ID'" filter="{id__icontains: 'text'}"><a href="/payments/{{row.id}}/">{{row.id}}</a></td>
         <td data-title="'Order ID'" sortable="'order_id'" filter="{order_id__icontains: 'text'}">{{row.order_id}}</td>
         <td data-title="'Created'" sortable="'created'">{{row.created|date:'short'}}</td>
@@ -22,7 +31,7 @@
         <td data-title="'Paid at'" sortable="'paid_at'">{{row.paid_at|date:'short'}}</td>
         <td data-title="'Description'" filter="{description__icontains: 'text'}">{{row.description}}</td>
         <td data-title="'Status'" sortable="'status'">{{row.status}}</td>
-        <td data-title="'Disabled'" sortable="'disabled'">{{row.disabled}}</td>
+        <!-- <td data-title="'Disabled'" sortable="'disabled'">{{row.disabled}}</td> -->
       </tr>
     </table>
     
@@ -50,7 +59,7 @@
     	  		});
     	  	};
     	  	$scope.setDefaultFilters = function () {
-    	  		$scope.filters = {disabled: 'False', created__at__gte: null, created__at__lte: null, status: ''};
+    	  		$scope.filters = {disabled: 'False', archived: 'False', created__at__gte: null, created__at__lte: null, status: ''};
     	  		$scope.tableParams.filter({});
     	  	};
     	  	$scope.exportPayments = function (format) {
