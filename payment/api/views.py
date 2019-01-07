@@ -15,18 +15,20 @@ class PaymentViewset(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAdminUser,)
     def get_queryset(self):
         return Payment.objects.all()
-#     @detail_route(methods=['post'])
-#     def archive(self, request, pk):
-#         instance = self.get_object()
-#         instance.archived = True
-#         instance.save()
-#         return Response(PaymentSerializer(instance).data)
-#     @detail_route(methods=['post'])
-#     def unarchive(self, request, pk):
-#         instance = self.get_object()
-#         instance.archived = False
-#         instance.save()
-#         return Response(PaymentSerializer(instance).data)
+    @detail_route(methods=['post'])
+    def archive(self, request, pk):
+        instance = self.get_object()
+        if instance.status == Payment.STATUS_PAID:
+            instance.archived = True
+            instance.save()
+        return Response(PaymentSerializer(instance).data)
+    @detail_route(methods=['post'])
+    def unarchive(self, request, pk):
+        instance = self.get_object()
+        if instance.status == Payment.STATUS_PAID:
+            instance.archived = False
+            instance.save()
+        return Response(PaymentSerializer(instance).data)
     @list_route()
     def export(self,request):
         import tablib
