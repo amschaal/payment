@@ -1,4 +1,4 @@
-Django==1.11.20
+Django==1.11.23
 Markdown==3.0.1
 django-crispy-forms==1.7.2
 django-filter==1.1.0
