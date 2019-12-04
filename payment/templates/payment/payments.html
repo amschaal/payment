@@ -9,6 +9,9 @@
 .disabled {
     color: red;
 }
+.btn-success {
+	color: white !important;
+}
 </style>
 <h2>Payments <a class="btn btn-primary float-right" href="{% url 'create_payment' %}">New</a></h2>
 <div ng-app="payments">
@@ -31,6 +34,7 @@
         <td data-title="'Paid at'" sortable="'paid_at'">{{row.paid_at|date:'short'}}</td>
         <td data-title="'Description'" filter="{description__icontains: 'text'}">{{row.description}}</td>
         <td data-title="'Status'" sortable="'status'">{{row.status}}</td>
+        <td data-title="'Action'"><div ng-if="row.paid_at"><a class="btn btn-warning ml-3" ng-if="!row.archived" ng-click="archive(row)">Archive</a> <a class="btn btn-success ml-3" ng-if="row.archived" ng-click="unarchive(row)">Unarchive</a></div></td>
         <!-- <td data-title="'Disabled'" sortable="'disabled'">{{row.disabled}}</td> -->
       </tr>
     </table>
@@ -44,15 +48,22 @@
 {% endblock %}
 {% block endbody %}
     <script src="{% static 'vendor/angularjs/angular.js' %}"></script>
+    <script src="{% static 'vendor/angularjs/angular-resource.js' %}"></script>
     <script src="{% static 'vendor/ngtable/ng-table.min.js' %}"></script>
     <script src="{% static 'js/services/DRFNgTable.js' %}"></script>
+    <script src="{% static 'js/models/models.js' %}"></script>
     <script>
-    var app = angular.module("payments", ["DRFNgTable"]);
+    var app = angular.module("payments", ["DRFNgTable","models"]);
+    app.config(function($resourceProvider, $httpProvider) {
+   		$resourceProvider.defaults.stripTrailingSlashes = false;
+	   	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+	   	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+   	});
     (function() {
-    	  app.controller('PaymentsController', ['$scope','DRFNgTableParams','$httpParamSerializer', PaymentsController]);
-    	  function PaymentsController($scope, DRFNgTableParams,$httpParamSerializer) {
+    	  app.controller('PaymentsController', ['$scope','DRFNgTableParams','$httpParamSerializer','Payment', PaymentsController]);
+    	  function PaymentsController($scope, DRFNgTableParams, $httpParamSerializer, Payment) {
     	  	$scope.init = function(id,statuses,processors,payment_statuses){
-    	  		$scope.tableParams = DRFNgTableParams('/api/payments/',{sorting: { created: "desc" },filter:$scope.filters});
+    	  		$scope.tableParams = DRFNgTableParams('/api/payments/',{sorting: { created: "desc" },filter:$scope.filters}, Payment);
     	  		$scope.setDefaultFilters();
     	  		$scope.$watchCollection('filters', function(newFilters, oldFilters) {
     	  			angular.extend($scope.tableParams.filter(), newFilters);
@@ -69,6 +80,12 @@
 			  	angular.extend(query_params, params.filter());
    	  			var url = '/api/payments/export/?'+$httpParamSerializer(query_params);
    	  			window.location = url;
+    	  	}
+    	  	$scope.archive = function (payment) {
+    	  		payment.$archive()
+    	  	}
+    	  	$scope.unarchive = function (payment) {
+    	  		payment.$unarchive()
     	  	}
     	  };
     	  
