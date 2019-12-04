@@ -36,7 +36,9 @@ def postback(request):
     req = {k.upper():v for k,v in request.POST.items()} #Touchnet seems inconsistent about case
 #     logger = logging.getLogger('touchnet')
     try:
-        payment_id = req.get('EXT_TRANS_ID').split("PAYMENT_ID=").pop() #FID=12345;{FAU==12345;}PAYMENT_ID=XXXXXXXXXXX
+        variables = req.get('EXT_TRANS_ID').strip(';').split(';')
+        EXT_TRANS_ID = dict([variable.split('=') for variable in variables])
+        payment_id = EXT_TRANS_ID.get('PAYMENT_ID') # req.get('EXT_TRANS_ID').split("PAYMENT_ID=").pop() #FID=12345;{FAU==12345;}PAYMENT_ID=XXXXXXXXXXX
         payment = Payment.objects.get(id=payment_id)
         posting_key = settings.TOUCHNET.get('POSTING_KEY')
         if posting_key != req.get('POSTING_KEY'):

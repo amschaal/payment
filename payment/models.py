@@ -3,14 +3,16 @@ import uuid
 
 class Account(models.Model):
     fid = models.CharField(max_length=3, primary_key=True)
+    fau = models.CharField(max_length=20, null=True, blank=True)
     name = models.CharField(max_length=50)
     def __str__(self):
         return '{0} - {1}'.format(self.fid, self.name)
     class Meta:
         ordering = ('fid', )
-    
+
 class Payment(models.Model):
     TYPE_GENERIC = 'GENERIC'
+    TYPE_KFS = 'KFS'
     STATUS_UNPAID = 'UNPAID'
     STATUS_PAID = 'PAID'
     STATUS_PENDING = 'PENDING'
@@ -18,7 +20,7 @@ class Payment(models.Model):
 #     STATUS_CANCELLED = 'CANCELLED'
     STATUS_ERROR = 'ERROR'
     STATUS_CHOICES = ((STATUS_UNPAID, 'Unpaid'), (STATUS_PAID, 'Paid'), (STATUS_PENDING, 'Payment Pending'), (STATUS_INVALID_AMOUNT, 'Invalid Amount Paid'), (STATUS_ERROR, 'Processing Error'))
-    TYPE_CHOICES = ((TYPE_GENERIC, TYPE_GENERIC),)
+    TYPE_CHOICES = ((TYPE_GENERIC, TYPE_GENERIC),(TYPE_KFS, 'KFS Invoice'))
     id = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=100)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=TYPE_GENERIC)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
@@ -26,6 +28,7 @@ class Payment(models.Model):
 #     chart_string = models.CharField(max_length=1, null=True)
 #     fau = models.CharField
     order_id = models.CharField(max_length=30, null=True, blank=True)
+    invoice_id = models.CharField(max_length=30, null=True, blank=True)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_UNPAID)
     created = models.DateTimeField(auto_now_add=True)
