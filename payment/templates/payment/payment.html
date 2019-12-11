@@ -30,6 +30,16 @@
   </div>
 </div>
 {% endif %}
+{% if payment.invoice_id %}
+<div class="row">
+  <div class="col-3">
+    <strong>Invoice ID</strong>
+  </div>
+  <div class="col">
+    {{payment.invoice_id}}
+  </div>
+</div>
+{% endif %}
 <div class="row">
   <div class="col-3">
     <strong>Created</strong>

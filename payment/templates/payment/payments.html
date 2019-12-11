@@ -29,6 +29,7 @@
       <tr ng-repeat="row in $data" ng-class="{disabled: row.disabled, archived: row.archived}">
         <td data-title="'ID'" filter="{id__icontains: 'text'}"><a href="/payments/{{row.id}}/">{{row.id}}</a></td>
         <td data-title="'Order ID'" sortable="'order_id'" filter="{order_id__icontains: 'text'}">{{row.order_id}}</td>
+        <td data-title="'Invoice ID'" sortable="'invoice_id'" filter="{invoice_id__icontains: 'text'}">{{row.invoice_id}}</td>
         <td data-title="'Created'" sortable="'created'">{{row.created|date:'short'}}</td>
         <td data-title="'Amount'" sortable="'amount'">${{row.amount}}</td>
         <td data-title="'Paid at'" sortable="'paid_at'">{{row.paid_at|date:'short'}}</td>
