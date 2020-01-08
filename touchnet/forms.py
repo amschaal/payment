@@ -31,7 +31,7 @@ class TouchnetPostForm(forms.Form):
         else:
             EXT_TRANS_ID = 'FID={};PAYMENT_ID={}'.format(self.payment.account.fid,self.payment.id)
         if self.payment.invoice_id:
-            EXT_TRANS_ID += ';INV={}'.format(self.payment.invoice_id)
+            EXT_TRANS_ID = 'INV={};'.format(self.payment.invoice_id) + EXT_TRANS_ID
         AMT = '{0:.2f}'.format(self.payment.amount)
         m = hashlib.md5()
         m.update(conf.get('POSTING_KEY')+EXT_TRANS_ID+AMT)
