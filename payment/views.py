@@ -53,6 +53,7 @@ def payment(request, id):
     return render(request, 'payment/payment.html', {'payment': payment})
 
 def pay(request, id):
-    payment = Payment.objects.get(id=id)
-    form = TouchnetPostForm(payment=payment)
-    return render(request, 'payment/pay.html', {'payment': payment, 'form': form})
+    return render(request, 'payment/payment_disabled.html', {})
+#     payment = Payment.objects.get(id=id)
+#     form = TouchnetPostForm(payment=payment)
+#     return render(request, 'payment/pay.html', {'payment': payment, 'form': form})
